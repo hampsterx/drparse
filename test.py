@@ -2,7 +2,7 @@
 
 
 """
-from daterangeparser import parse_dates
+from drparse import parse
 
 import unittest
 import logging
@@ -15,7 +15,7 @@ class TestDateRangeParsing(unittest.TestCase):
 
     def assertExpectedResult(self, text, expected_date_strings, expected_dates):
 
-        result = parse_dates(text)
+        result = parse(text)
 
         if expected_dates is None and result is None:
             return
@@ -40,6 +40,8 @@ class TestDateRangeParsing(unittest.TestCase):
         self.assertExpectedResult("Sat May 28, 2016 to Sun May 29, 2016, 10PM till late", ['Sat May 28, 2016', 'Sun May 29, 2016'], ['2016-05-28', '2016-05-29'])
         self.assertExpectedResult("Thursday, July 28 at 8 PM - 11 PM", ['Thursday, July 28'], ['2016-07-28'])
         self.assertExpectedResult("Saturday, June 11 at 12 PM - 10 PM in UTC+02", ['Saturday, June 11'], ['2016-06-11'])
+
+        # "January 10th - 11th"
 
 
 if __name__ == '__main__':

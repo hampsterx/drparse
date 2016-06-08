@@ -8,9 +8,9 @@ from collections import namedtuple
 DateRange = namedtuple('DateRange', 'start end dates')
 
 
-def parse_dates(value, max_days=15):
+def parse(value, max_days=15):
     """
-    parse single or double dates
+    parse single or double dates ignoring times
     """
 
     separators = ['-', ' to ', ' at ']
