@@ -2,18 +2,20 @@
 
 import dateparser
 import re
+import logging
 
 from collections import namedtuple
 
 DateRange = namedtuple('DateRange', 'start end dates')
 
+log = logging.getLogger(__name__)
 
 def parse(value, max_days=15):
     """
     parse single or double dates ignoring times
     """
 
-    separators = ['-', ' to ', ' at ']
+    separators = ['-', ' to ', ' at ', ' & ']
 
     date_pieces = [piece.strip() for piece in re.split("|".join(separators),value)]
 
@@ -25,6 +27,8 @@ def parse(value, max_days=15):
             date_pieces[k] = v.replace(time, '').strip().strip(",").strip("-")
 
     date_pieces = [piece.strip() for piece in date_pieces if len(piece.strip()) > 4]
+
+    log.debug(date_pieces)
 
     dates = [dateparser.parse(date) for date in date_pieces]
 
@@ -39,19 +43,18 @@ def parse(value, max_days=15):
         if dates[0] == None or dates[1] == None:
             return None
 
-        if abs((dates[0] - dates[1]).days) > 5:
+        if abs((dates[0] - dates[1]).days) > max_days:
 
-            dates = value.split('-')
-            date_bits = dates[1].split(" ")
+            date_bits = date_pieces[1].split(" ")
             if len(date_bits) < 2:
                 return None
 
             date_bits = " ".join(date_bits[-2:])
 
-            if date_bits not in dates[0]:
-                dates[0] = "{} {}".format(dates[0], date_bits)
+            if date_bits not in date_pieces[0]:
+                date_pieces[0] = "{} {}".format(date_pieces[0], date_bits)
 
-            dates = [dateparser.parse(date) for date in dates]
+            dates = [dateparser.parse(date) for date in date_pieces]
 
     if dates[0] == None or dates[1] == None:
         return None
