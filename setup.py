@@ -16,7 +16,7 @@ setup(
     name='drparse',
     author='Tim van der Hulst',
     author_email='tim.vdh@gmail.com',
-    version='0.0.2',
+    version='0.0.3',
     url='https://github.com/hampsterx/drparse',
     install_requires=[str(ir.req) for ir in parse_requirements('requirements.txt', session=uuid.uuid4())],
     py_modules=['drparse'],
