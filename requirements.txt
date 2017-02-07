@@ -1,1 +1,2 @@
-dateparser==0.3.5
+dateparser==0.5.1
+

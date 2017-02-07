@@ -57,6 +57,7 @@ def parse(value, max_days=15):
         if abs((dates[0] - dates[1]).days) > max_days:
 
             date_bits = date_pieces[1].split(" ")
+
             if len(date_bits) < 2:
                 return None
 
@@ -71,7 +72,7 @@ def parse(value, max_days=15):
         return None
 
     if abs((dates[0] - dates[1]).days) > max_days:
-        return None
+        return DateRange(dates[0], None, date_pieces)
 
     if (dates[1] - dates[0]).days < 1:
         return None
